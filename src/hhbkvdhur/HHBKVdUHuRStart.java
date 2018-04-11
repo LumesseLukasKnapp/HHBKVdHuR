@@ -21,3 +21,4 @@ public class HHBKVdUHuRStart extends Application {
         launch(args);
     }
 }
+

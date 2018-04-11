@@ -20,17 +20,17 @@
         <Label fx:id="lblId" text="Id" GridPane.rowIndex="1" />
         <Label fx:id="lblTyp" text="Typ" GridPane.rowIndex="2" />
         <Label fx:id="lblHersteller" text="Hersteller" GridPane.rowIndex="3" />
-        <Label fx:id="lblLeistung" text="Leistung" GridPane.rowIndex="4" />
-        <Label fx:id="lblHubraum" text="Hubraum" GridPane.rowIndex="5" />
-        <Label fx:id="lblMaxtankinhalt" text="Maxtankinhalt" GridPane.rowIndex="6" />
-        <Label fx:id="lblIsttankinhalt" text="Isttankinhalt" GridPane.rowIndex="7" />
+        <Label fx:id="lblSeriennummer" text="Seriennummer" GridPane.rowIndex="4" />
+        <Label fx:id="lblInventarnummer" text="Inventarnummer" GridPane.rowIndex="5" />
+        <Label fx:id="lblModell" text="Modell" GridPane.rowIndex="6" />
+        <Label fx:id="lblStatus" text="Status" GridPane.rowIndex="7" />
         <TextField fx:id="txtId" disable="true" editable="false" opacity="0.31" promptText="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <TextField fx:id="txtModell" promptText="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <TextField fx:id="txtTyp" promptText="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <TextField fx:id="txtHersteller" promptText="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-        <TextField fx:id="txtLeistung" promptText="" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-        <TextField fx:id="txtHubraum" promptText="" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-        <TextField fx:id="txtMaxtankinhalt" promptText="" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-        <TextField fx:id="txtIsttankinhalt" promptText="" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+        <TextField fx:id="txtSeriennummer" promptText="" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <TextField fx:id="txtInventarnummer" promptText="" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        <TextField fx:id="txtModell" promptText="" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+        <TextField fx:id="txtStatus" promptText="" GridPane.columnIndex="1" GridPane.rowIndex="7" />
         <ListView fx:id="listview" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="9" />
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="80.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
             <children>
