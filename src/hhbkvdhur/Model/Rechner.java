@@ -1,4 +1,4 @@
-package hhbkvdhur;
+package hhbkvdhur.Model;
 
 public class Rechner extends Hardware{
 

@@ -1,4 +1,4 @@
-package hhbkvdhur;
+package hhbkvdhur.Model;
 
 import java.util.List;
 

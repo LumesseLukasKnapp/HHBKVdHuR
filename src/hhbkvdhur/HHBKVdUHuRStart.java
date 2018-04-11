@@ -10,7 +10,7 @@ public class HHBKVdUHuRStart extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("View/sample.fxml"));
         primaryStage.setTitle("HHBK Verwaltung der Hardware und Räume");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
