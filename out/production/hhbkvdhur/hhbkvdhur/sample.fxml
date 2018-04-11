@@ -18,7 +18,7 @@
                 <Font name="System Bold Italic" size="19.0" />
             </font></Label>
         <Label fx:id="lblId" text="Id" GridPane.rowIndex="1" />
-        <Label fx:id="lblModell" text="Model" GridPane.rowIndex="2" />
+        <Label fx:id="lblTyp" text="Typ" GridPane.rowIndex="2" />
         <Label fx:id="lblHersteller" text="Hersteller" GridPane.rowIndex="3" />
         <Label fx:id="lblLeistung" text="Leistung" GridPane.rowIndex="4" />
         <Label fx:id="lblHubraum" text="Hubraum" GridPane.rowIndex="5" />
