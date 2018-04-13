@@ -12,7 +12,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
-import java.awt.event.ActionEvent;
+import javafx.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -61,7 +61,7 @@ public class Controller implements Initializable {
             r.setTyp(txtRaumTyp.getText());
             r.setAnzahlArbeitsplaetze(anzahlArbeitsplaetze);
 
-            HHBKVdHuRModel.addRaum(r);
+            //HHBKVdHuRModel.addRaum(r);
         }
         catch(NumberFormatException ne){
             System.out.println(ne.getMessage());
@@ -73,10 +73,9 @@ public class Controller implements Initializable {
         if(cbHardwareSelect.getValue()=="Rechner"){
             try{
 
-                Rechner h = generateGenericHardware(new Rechner());
-                h.set
+                //Rechner h = generateGenericHardware(new Rechner());
 
-                HHBKVdHuRModel.addHardware(h);
+                //HHBKVdHuRModel.addHardware(h);
             }
             catch(NumberFormatException ne){
                 System.out.println(ne.getMessage());
@@ -87,7 +86,7 @@ public class Controller implements Initializable {
     }
 
     private Hardware generateGenericHardware(Hardware h){
-        
+
         h.setTyp(txtHardwareTyp.getText());
         h.setSeriennummer(txtHardwareSeriennummer.getText());
         h.setInventarnummer(txtHardwareInventarnummer.getText());
@@ -98,4 +97,24 @@ public class Controller implements Initializable {
         return h;
     }
 
+    @FXML
+    public void handleBtnRaumAendernAction(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void handleBtnResetAction(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void handleBtnHardwareHinzufuegenAction(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void handleBtnHardwareAendernAction(ActionEvent actionEvent) {
+        //Do stuff
+    }
+
+    @FXML
+    public void handleBtnRaumHinzufuegenAction(ActionEvent actionEvent) {
+    }
 }
