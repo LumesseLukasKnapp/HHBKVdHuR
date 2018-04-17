@@ -1,0 +1,83 @@
+try {
+
+//insert save / update method call here
+
+
+} catch (NumberFormatException nfe) {
+            String ausgabetext = "Bitte füllen Sie alle Felder korrekt aus!\n";
+            ausgabetext += "Leistung und Hubraum bitte ganze Zahlen,\n";
+            ausgabetext += "Tankinhalte bei Komma-eingaben bitte mit . (Punkt) getrennt.\n";
+            this.addMessageDialog(ausgabetext);
+        }
+
+
+
+    private void addMessageDialog(String text) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setContentText(text);
+        alert.showAndWait();
+        lvRennwagen.refresh();
+    }
+
+
+
+
+
+
+    @Override // This method is called by the FXMLLoader when initialization is complete
+    public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+        this.RaumListview.setItems(this.raumListe);
+        this.HardwareListview.setItems(this.hardwareListe);
+
+        BooleanBinding Hardwarefilled =
+                txtRaumFkId.textProperty().isNotEmpty()
+                        .and(txtHardwareArt.textProperty().isNotEmpty())
+                        .and(txtHardwareTyp.textProperty().isNotEmpty())
+                        .and(txtHardwareSeriennummer.textProperty().isNotEmpty())
+                        .and(txtHardwareInventarnummer.textProperty().isNotEmpty())
+                        .and(txtHardwareHersteller.textProperty().isNotEmpty())
+                        .and(txtHardwareModell.textProperty().isNotEmpty())
+                        .and(txtHardwareStatus.textProperty().isNotEmpty())
+                        .and((txtDruckerBetriebsmittel.textProperty().isNotEmpty())
+                        .or(txtRechnerImagepfad.textProperty().isNotEmpty()));
+        btnHardwareHinzufuegen.disableProperty()
+                .bind((HardwareListview.getSelectionModel()
+                        .selectedItemProperty()
+                        .isNotNull())
+                        .or(Hardwarefilled.not()));
+
+        btnHardwareAendern.disableProperty()
+                .bind(HardwareListview.getSelectionModel()
+                        .selectedItemProperty()
+                        .isNull());
+
+        BooleanBinding Raumfilled =
+                txtRaumBezeichnung.textProperty().isNotEmpty()
+                        .and(txtRaumTyp.textProperty().isNotEmpty())
+                        .and(txtRaumAnzahlArbeitsplaetze.textProperty().isNotEmpty());
+        btnRaumHinzufuegen.disableProperty()
+                .bind((RaumListview.getSelectionModel()
+                        .selectedItemProperty()
+                        .isNotNull())
+                        .or(Raumfilled.not()));
+
+        BooleanBinding drucker = txtHardwareTyp.textProperty().isEqualTo("Drucker");
+        txtDruckerBetriebsmittel.disableProperty()
+                .bind((HardwareListview.getSelectionModel()
+                        .selectedItemProperty()
+                        .isNotNull())
+                        .or(drucker.not()));
+
+        BooleanBinding computer = txtHardwareTyp.textProperty().isEqualTo("Computer");
+        txtRechnerImagepfad.disableProperty()
+                .bind((HardwareListview.getSelectionModel()
+                        .selectedItemProperty()
+                        .isNotNull())
+                        .or(computer.not()));
+
+        btnRaumAendern.disableProperty()
+                .bind(RaumListview.getSelectionModel()
+                        .selectedItemProperty()
+                        .isNull());
+    }
