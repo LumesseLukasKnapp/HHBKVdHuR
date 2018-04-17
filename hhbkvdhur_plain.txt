@@ -1,0 +1,23 @@
+CREATE DATABASE IF NOT EXISTS `hardwareraperatur` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `hardwareraperatur`;
+
+CREATE TABLE `hardware` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `typ` varchar(50) NOT NULL,
+  `seriennummer` varchar(50) NOT NULL,
+  `inventarnummer` varchar(50) NOT NULL,
+  `hersteller` varchar(50) NOT NULL,
+  `modell` varchar(50) NOT NULL,
+  `status` int(5) NOT NULL,
+  `fk_raum_id` int(5) DEFAULT NULL,
+  `art` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `raum` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `bezeichnung` varchar(50) NOT NULL,
+  `typ` varchar(50) NOT NULL,
+  `anzahlArbeitsplätze` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
