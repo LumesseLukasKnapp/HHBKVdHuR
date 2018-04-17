@@ -12,8 +12,8 @@ CREATE TABLE `hardware` (
   `fk_raum_id` int(5) DEFAULT NULL,
   `art` varchar(50) NOT NULL,
   `betriebsmittel` varchar(50) DEFAULT NULL,
-
-  `imagepfad` varchar(50) DEFAULT NULL
+  `imagepfad` varchar(50) DEFAULT NULL,
+  
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
