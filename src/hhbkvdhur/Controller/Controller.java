@@ -1,8 +1,6 @@
 package hhbkvdhur.Controller;
 
-import hhbkvdhur.Model.HHBKVdHuRModel;
-import hhbkvdhur.Model.Hardware;
-import hhbkvdhur.Model.Raum;
+import hhbkvdhur.Model.*;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +12,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -22,6 +19,12 @@ public class Controller implements Initializable {
     @FXML
     public ListView<Raum> RaumListview;
     public ListView<Hardware> HardwareListview;
+    public Button btnHardwareHinzufuegen,
+    btnHardwareAendern,
+    btnEnde,
+    btnRaumHinzufuegen,
+    btnRaumAendern,
+    btnResetAuswahl;
 
     @FXML
     private TextField
@@ -38,7 +41,8 @@ public class Controller implements Initializable {
             txtDruckerBetriebsmittel,
             txtHardwareArt,
             txtRaumId,
-            txtHardwareId;
+            txtHardwareId,
+            txtRaumFkId;
 
 
     private ObservableList<Raum> raumListe = FXCollections.observableArrayList();
@@ -48,6 +52,38 @@ public class Controller implements Initializable {
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         this.RaumListview.setItems(this.raumListe);
         this.HardwareListview.setItems(this.hardwareListe);
+
+        BooleanBinding Hardwarefilled =
+                txtRaumFkId.textProperty().isNotEmpty()
+                        .and(txtHardwareArt.textProperty().isNotEmpty())
+                        .and(txtHardwareTyp.textProperty().isNotEmpty())
+                        .and(txtHardwareSeriennummer.textProperty().isNotEmpty())
+                        .and(txtHardwareInventarnummer.textProperty().isNotEmpty())
+                        .and(txtHardwareHersteller.textProperty().isNotEmpty())
+                        .and(txtHardwareModell.textProperty().isNotEmpty())
+                        .and(txtHardwareStatus.textProperty().isNotEmpty())
+                        .and((txtDruckerBetriebsmittel.textProperty().isNotEmpty())
+                                .or(txtRechnerImagepfad.textProperty().isNotEmpty()));
+        btnHardwareHinzufuegen.disableProperty()
+                .bind((HardwareListview.getSelectionModel()
+                        .selectedItemProperty()
+                        .isNotNull())
+                        .or(Hardwarefilled.not()));
+
+        btnHardwareAendern.disableProperty()
+                .bind(HardwareListview.getSelectionModel()
+                        .selectedItemProperty()
+                        .isNull());
+
+        BooleanBinding Raumfilled =
+                txtRaumBezeichnung.textProperty().isNotEmpty()
+                        .and(txtRaumTyp.textProperty().isNotEmpty())
+                        .and(txtRaumAnzahlArbeitsplaetze.textProperty().isNotEmpty());
+        btnRaumHinzufuegen.disableProperty()
+                .bind((RaumListview.getSelectionModel()
+                        .selectedItemProperty()
+                        .isNotNull())
+                        .or(Raumfilled.not()));
 
         BooleanBinding drucker = txtHardwareTyp.textProperty().isEqualTo("Drucker");
         txtDruckerBetriebsmittel.disableProperty()
@@ -62,29 +98,11 @@ public class Controller implements Initializable {
                         .selectedItemProperty()
                         .isNotNull())
                         .or(computer.not()));
-    }
 
-    private Hardware generateGenericHardware(Hardware h){
-
-        h.setTyp(txtHardwareTyp.getText());
-        h.setSeriennummer(txtHardwareSeriennummer.getText());
-        h.setInventarnummer(txtHardwareInventarnummer.getText());
-        h.setHersteller(txtHardwareHersteller.getText());
-        h.setModell(txtHardwareModell.getText());
-        h.setStatus(Integer.parseInt(txtHardwareStatus.getText()));
-
-        return h;
-    }
-
-    @FXML
-    public void handleBtnRaumAendernAction(ActionEvent actionEvent) {
-        Raum r = RaumListview.getSelectionModel().getSelectedItem();
-
-        //List<Hardware> hardwareList = HHBKVdHuRModel.getHardware(r);
-
-        hardwareListe.removeAll();
-        //hardwareListe.addAll(hardwareList);
-        HardwareListview.getSelectionModel().select(-1);
+        btnRaumAendern.disableProperty()
+                .bind(RaumListview.getSelectionModel()
+                        .selectedItemProperty()
+                        .isNull());
     }
 
     @FXML
@@ -93,32 +111,61 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    public void handleBtnHardwareHinzufuegenAction(ActionEvent actionEvent) {
-    }
-
-    @FXML
-    public void handleBtnHardwareAendernAction(ActionEvent actionEvent) {
-        //Do stuff
-    }
-
-    @FXML
     public void handleBtnRaumHinzufuegenAction(ActionEvent actionEvent) {
         Raum r = new Raum();
         int anzahlArbeitsplaetze;
 
         try{
+
+            if(txtRaumBezeichnung.getText().isEmpty()||
+                    txtRaumTyp.getText().isEmpty()||
+                    txtRaumAnzahlArbeitsplaetze.getText().isEmpty()) throw new Exception("Felder dürfen nicht leer sein!");
+
             anzahlArbeitsplaetze = Integer.parseInt(txtRaumAnzahlArbeitsplaetze.getText());
 
             r.setBezeichnung(txtRaumBezeichnung.getText());
             r.setTyp(txtRaumTyp.getText());
             r.setAnzahlArbeitsplaetze(anzahlArbeitsplaetze);
 
-            //HHBKVdHuRModel.addRaum(r);
+            HHBKVdHuRModel.addRaum(r);
+
+            raumListe.add(r);
 
             initRaumDetails();
         }
-        catch(NumberFormatException ne){
-            System.out.println(ne.getMessage());
+        catch(NumberFormatException e){
+            addMessageDialog("Die Anzahl der Arbeitsplätze muss eine ganze Zahl sein!");
+        }
+        catch(Exception e){
+            addMessageDialog(e.getMessage());
+        }
+    }
+
+
+    @FXML
+    public void handleBtnRaumAendernAction(ActionEvent actionEvent) {
+        try {
+
+            if(txtRaumBezeichnung.getText().isEmpty()||
+                    txtRaumTyp.getText().isEmpty()||
+                    txtRaumAnzahlArbeitsplaetze.getText().isEmpty()) throw new Exception("Felder dürfen nicht leer sein!");
+
+            Raum r = RaumListview.getSelectionModel().getSelectedItem();
+            int listIndex = this.HardwareListview.getSelectionModel().getSelectedIndex();
+
+            r.setAnzahlArbeitsplaetze(Integer.parseInt(txtRaumAnzahlArbeitsplaetze.getText()));
+            r.setTyp(txtRaumTyp.getText());
+            r.setBezeichnung(txtRaumBezeichnung.getText());
+
+            HHBKVdHuRModel.updateRaum(r);
+
+            raumListe.set(listIndex, r);
+        }
+        catch(NumberFormatException e){
+            addMessageDialog("Die Anzahl der Arbeitsplätze muss eine ganze Zahl sein!");
+        }
+        catch(Exception e){
+            addMessageDialog(e.getMessage());
         }
     }
 
@@ -138,6 +185,101 @@ public class Controller implements Initializable {
         this.txtRaumBezeichnung.setText("");
         this.txtRaumTyp.setText("");
         this.txtRaumAnzahlArbeitsplaetze.setText("");
+    }
+
+    @FXML
+    public void handleBtnHardwareHinzufuegenAction(ActionEvent actionEvent) {
+
+        try {
+
+            if (txtHardwareTyp.getText().isEmpty() ||
+                    txtHardwareHersteller.getText().isEmpty() ||
+                    txtHardwareTyp.getText().isEmpty() ||
+                    txtHardwareInventarnummer.getText().isEmpty() ||
+                    txtHardwareSeriennummer.getText().isEmpty() ||
+                    txtHardwareStatus.getText().isEmpty() ||
+                    txtHardwareModell.getText().isEmpty()) throw new Exception("Felder dürfen nicht leer sein!");
+            if (!txtHardwareTyp.getText().equals("Computer") && !txtHardwareTyp.getText().equals("Computer"))
+                throw new Exception("Hardwaretyp muss 'Computer' oder 'Drucker' sein!");
+
+
+            int status = Integer.parseInt(txtHardwareSeriennummer.getText());
+
+            Hardware h = new Hardware();
+
+            h.setHersteller(txtHardwareHersteller.getText());
+            h.setInventarnummer(txtHardwareInventarnummer.getText());
+            h.setModell(txtHardwareModell.getText());
+            h.setSeriennummer(txtHardwareSeriennummer.getText());
+            h.setTyp(txtHardwareTyp.getText());
+            h.setStatus(status);
+
+            if (txtRaumFkId.getText().isEmpty()) {
+                h.setRaumFkId(this.RaumListview.getSelectionModel().getSelectedItem().getRaumid());
+            } else {
+                h.setRaumFkId(Integer.parseInt(txtRaumFkId.getText()));
+            }
+
+
+            if (txtHardwareTyp.getText().indexOf("Computer") > 0) {
+                Rechner r = (Rechner) h;
+
+                r.setImagepfad(txtRechnerImagepfad.getText());
+                hardwareListe.add(r);
+
+            } else if (txtHardwareTyp.getText().indexOf("Drucker") > 0) {
+                Drucker d = (Drucker) h;
+
+                d.setBetriebsmittel(txtDruckerBetriebsmittel.getText());
+                hardwareListe.add(d);
+            } else {
+                hardwareListe.add(h);
+            }
+
+        }catch(NumberFormatException e){
+                addMessageDialog("Hardwarestatus muss eine ganze Zahl sein!");
+            }
+        catch(Exception e){
+                addMessageDialog(e.getMessage());
+            }
+    }
+
+    @FXML
+    public void handleBtnHardwareAendernAction(ActionEvent actionEvent) {
+        Hardware h = (Hardware) this.HardwareListview.getSelectionModel().getSelectedItem();
+        int listIndex = this.HardwareListview.getSelectionModel().getSelectedIndex();
+
+        try
+        {
+            if(txtHardwareTyp.getText().isEmpty()||
+                    txtHardwareHersteller.getText().isEmpty()||
+                    txtHardwareTyp.getText().isEmpty()||
+                    txtHardwareInventarnummer.getText().isEmpty()||
+                    txtHardwareSeriennummer.getText().isEmpty()||
+                    txtHardwareStatus.getText().isEmpty()||
+                    txtHardwareModell.getText().isEmpty()) throw new Exception("Felder dürfen nicht leer sein!");
+            if(!txtHardwareTyp.getText().equals("Computer")&&!txtHardwareTyp.getText().equals("Computer"))
+                throw new Exception("Hardwaretyp muss 'Computer' oder 'Drucker' sein!");
+
+            int status = Integer.parseInt(txtHardwareSeriennummer.getText());
+
+            h.setHersteller(txtHardwareHersteller.getText());
+            h.setInventarnummer(txtHardwareInventarnummer.getText());
+            h.setModell(txtHardwareModell.getText());
+            h.setSeriennummer(txtHardwareSeriennummer.getText());
+            h.setTyp(txtHardwareTyp.getText());
+            h.setStatus(status);
+
+            HHBKVdHuRModel.updateHardware(h);
+
+            hardwareListe.set(listIndex, h);
+        }
+        catch(NumberFormatException e){
+            addMessageDialog("Hardwarestatus muss eine ganze Zahl sein!");
+        }
+        catch(Exception e){
+            addMessageDialog(e.getMessage());
+        }
     }
 
     public void handleHardwareSelected(KeyEvent keyEvent) {
@@ -169,5 +311,12 @@ public class Controller implements Initializable {
         this.txtHardwareStatus.setText("");
         this.txtDruckerBetriebsmittel.setText("");
         this.txtRechnerImagepfad.setText("");
+    }
+
+    private void addMessageDialog(String text) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setContentText(text);
+        alert.showAndWait();
     }
 }

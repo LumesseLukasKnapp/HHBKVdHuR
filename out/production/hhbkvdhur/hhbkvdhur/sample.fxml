@@ -18,7 +18,7 @@
         </font>
     </Label>
 
-    <Label fx:id="lblRaumId" text="Id" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <Label fx:id="lblRaumId" text="Raum-Nr" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
     <Label fx:id="lblRaumBezeichnung" text="Bezeichnung" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
     <Label fx:id="lblRaumTyp" text="Typ" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
     <Label fx:id="lblRaumAnzahlArbeitsplaetze" text="Anzahl Arbeitsplätze" GridPane.columnIndex="0"
@@ -29,7 +29,8 @@
     <TextField fx:id="txtRaumTyp" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
     <TextField fx:id="txtRaumAnzahlArbeitsplaetze" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
     <ListView fx:id="RaumListview" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="2"
-              GridPane.rowIndex="1" GridPane.rowSpan="5" onKeyPressed="#handleRaumSelected" onMouseClicked="#handleRaumSelected" onTouchReleased="#handleRaumSelected"/>
+              GridPane.rowIndex="1" GridPane.rowSpan="5" onKeyPressed="#handleRaumSelected"
+              onMouseClicked="#handleRaumSelected" onTouchReleased="#handleRaumSelected"/>
 
     <Button fx:id="btnRaumHinzufuegen" mnemonicParsing="false" onAction="#handleBtnRaumHinzufuegenAction"
             text="Hinzufuegen" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
@@ -38,7 +39,8 @@
     <Button fx:id="btnResetAuswahl" mnemonicParsing="false" onAction="#handleBtnResetAction" text="Reset Auswahl"
             GridPane.columnIndex="3" GridPane.rowIndex="6"/>
 
-    <Label fx:id="lblHardwareId" text="Id" GridPane.columnIndex="2" GridPane.rowIndex="10"/>
+    <Label fx:id="lblHardwareId" text="Id" GridPane.columnIndex="2" GridPane.rowIndex="9"/>
+    <Label fx:id="lblRaumFkId" text="Raum-Nr" GridPane.columnIndex="2" GridPane.rowIndex="10"/>
     <Label fx:id="lblHardwareArt" text="Art" GridPane.columnIndex="2" GridPane.rowIndex="11"/>
     <Label fx:id="lblHardwareTyp" text="Typ" GridPane.columnIndex="2" GridPane.rowIndex="12"/>
     <Label fx:id="lblHardwareSeriennummer" text="Seriennummer" GridPane.columnIndex="2" GridPane.rowIndex="13"/>
@@ -50,7 +52,8 @@
     <Label fx:id="lblRechnerImagepfad" text="Imagepfad" GridPane.columnIndex="2" GridPane.rowIndex="19"/>
 
     <TextField fx:id="txtHardwareId" disable="true" editable="false" opacity="0.31" GridPane.columnIndex="3"
-               GridPane.rowIndex="10"/>
+               GridPane.rowIndex="9"/>
+    <TextField fx:id="txtRaumFkId" GridPane.columnIndex="3" GridPane.rowIndex="10"/>
     <TextField fx:id="txtHardwareArt" GridPane.columnIndex="3" GridPane.rowIndex="11"/>
     <TextField fx:id="txtHardwareTyp" GridPane.columnIndex="3" GridPane.rowIndex="12"/>
     <TextField fx:id="txtHardwareSeriennummer" GridPane.columnIndex="3" GridPane.rowIndex="13"/>
@@ -62,7 +65,8 @@
     <TextField fx:id="txtRechnerImagepfad" GridPane.columnIndex="3" GridPane.rowIndex="19"/>
 
     <ListView fx:id="HardwareListview" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2"
-              GridPane.rowIndex="9" GridPane.rowSpan="11" onKeyPressed="#handleHardwareSelected" onMouseClicked="#handleHardwareSelected" onTouchReleased="#handleHardwareSelected"/>
+              GridPane.rowIndex="9" GridPane.rowSpan="11" onKeyPressed="#handleHardwareSelected"
+              onMouseClicked="#handleHardwareSelected" onTouchReleased="#handleHardwareSelected"/>
 
     <Button fx:id="btnHardwareHinzufuegen" mnemonicParsing="false" onAction="#handleBtnHardwareHinzufuegenAction"
             text="Hinzufuegen" GridPane.columnIndex="2" GridPane.rowIndex="20"/>

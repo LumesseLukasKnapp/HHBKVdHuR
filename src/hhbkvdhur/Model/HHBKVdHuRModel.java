@@ -12,46 +12,40 @@ public class HHBKVdHuRModel {
         sqlProvider = new SqlProvider();
     }
 
-    public static List<Hardware> getHardware(Hardware h) {
-        return sqlProvider.getAll(h);
+    /*public static List<Hardware> getHardware() {
+        return sqlProvider.getAllHardware();
     }
 
     public static List<Hardware> getHardware(Raum r) {
-        return sqlProvider.getAll(Hardware.class, r);
+        return sqlProvider.getAllHardwareByRoomId(r.getRaumid());
     }
 
-    public static List<Raum> getRaeume(Raum r) {
-        return sqlProvider.getAll(r);
-    }
+    public static List<Raum> getRaeume() {
+        return sqlProvider.getAllRooms();
+    }*/
 
-    public static void addRaum(Raum r) {
-        sqlProvider.insert(r);
-        sqlProvider.getRaeume();
+    public static void addRoom(Raum r) {
+        //sqlProvider.insertRoom(r);
     }
 
     public static void addHardware(Hardware h) {
-        sqlProvider.insert(h);
-        sqlProvider.getHardware();
+        //sqlProvider.insertHardware(h);
     }
 
-    public static void updateRaum(Raum r) {
-        sqlProvider.update(r);
-        sqlProvider.getRaeume();
+    public static void updateRoom(Raum r) {
+        //sqlProvider.updateRoom(r);
     }
 
     public static void updateHardware(Hardware h) {
-        sqlProvider.update(h);
-        sqlProvider.getHardware();
+        //sqlProvider.updateHardware(h);
     }
-
-    public static void deleteRaum(Raum r) {
-        sqlProvider.delete(r);
-        sqlProvider.getRaeume();
-    }
-
-    public static void deleteHardware(Hardware h) {
-        sqlProvider.delete(h);
-        sqlProvider.getHardware();
-    }
+/* ================================================================================================================== */
+//    public static void deleteRaum(Raum r) {
+//        sqlProvider.deleteRaum(r);
+//    }
+//
+//    public static void deleteHardware(Hardware h) {
+//        sqlProvider.deleteRaum(h);
+//    }
 
 }

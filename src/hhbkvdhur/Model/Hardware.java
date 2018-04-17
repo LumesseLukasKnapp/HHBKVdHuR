@@ -12,6 +12,7 @@ public class Hardware {
     private String imagepfad;
     private String art;
     private String betriebsmittel;
+    private int raumFkId;
 
     public Hardware() {
     }
@@ -95,5 +96,13 @@ public class Hardware {
 
     public String getBetriebsmittel() {
         return betriebsmittel;
+    }
+
+    public int getRaumFkId() {
+        return raumFkId;
+    }
+
+    public void setRaumFkId(int raumFkId) {
+        this.raumFkId = raumFkId;
     }
 }
