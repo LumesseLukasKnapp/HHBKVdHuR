@@ -9,6 +9,10 @@ public class Hardware {
     private String hersteller;
     private String modell;
     private int status;
+    private String art;
+    private String betriebsmittel;
+    private String imagepfad;
+
 
     public Hardware() {
     }
@@ -78,5 +82,17 @@ public class Hardware {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getArt() {
+        return art;
+    }
+
+    public String getBetriebsmittel() {
+        return betriebsmittel;
+    }
+
+    public String getImagepfad() {
+        return imagepfad;
     }
 }
