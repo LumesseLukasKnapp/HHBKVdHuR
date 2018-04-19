@@ -1,6 +1,8 @@
 package hhbkvdhur.Service;
 
+import hhbkvdhur.Model.Drucker;
 import hhbkvdhur.Model.Hardware;
+import hhbkvdhur.Model.Rechner;
 
 import java.sql.*;
 import java.util.*;
@@ -22,7 +24,7 @@ public class SqlProvider
         {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-            String url = "jdbc:mysql://localhost:3306/hardwarereperatur";
+            String url = "jdbc:mysql://localhost:3306/hardwareraperatur";
             this.connection = DriverManager.getConnection(url,"root","");
         }
         catch (InstantiationException e)
@@ -57,6 +59,7 @@ public class SqlProvider
     public ArrayList<Hardware> getAllHardware() throws SQLException
     {
         ArrayList<Hardware> hardwareArrayList = new ArrayList<>();
+
         String sql;
         ResultSet resultSet;
 
@@ -70,19 +73,49 @@ public class SqlProvider
 
         resultSet = stmt.getResultSet();
 
-        while (resultSet.next() == true) {
-            hardwareArrayList.add(new Hardware(
-                    resultSet.getInt("id"),
-                    resultSet.getString("typ"),
-                    resultSet.getString("seriennummer"),
-                    resultSet.getString("inventarnummer"),
-                    resultSet.getString("hersteller"),
-                    resultSet.getString("modell"),
-                    resultSet.getInt("status"),
-                    resultSet.getString("imagepfad"),
-                    resultSet.getString("art"),
-                    resultSet.getString("betriebsmittel")
-            ));
+        while (resultSet.next() == true)
+        {
+            if(resultSet.getString("betriebsmittel") == null && resultSet.getString("imagepfad") == null)
+            {
+                hardwareArrayList.add(new Hardware(
+                        resultSet.getInt("id"),
+                        resultSet.getString("typ"),
+                        resultSet.getString("seriennummer"),
+                        resultSet.getString("inventarnummer"),
+                        resultSet.getString("hersteller"),
+                        resultSet.getString("modell"),
+                        resultSet.getInt("status"),
+                        resultSet.getString("art")
+                ));
+            }
+            else if(resultSet.getString("betriebsmittel") != null && resultSet.getString("imagepfad") == null)
+            {
+                hardwareArrayList.add(new Drucker(
+                        resultSet.getInt("id"),
+                        resultSet.getString("typ"),
+                        resultSet.getString("seriennummer"),
+                        resultSet.getString("inventarnummer"),
+                        resultSet.getString("hersteller"),
+                        resultSet.getString("modell"),
+                        resultSet.getInt("status"),
+                        resultSet.getString("betriebsmittel"),
+                        resultSet.getString("art")
+                ));
+            }
+            else if(resultSet.getString("betriebsmittel") == null && resultSet.getString("imagepfad") != null)
+            {
+                hardwareArrayList.add(new Rechner(
+                        resultSet.getInt("id"),
+                        resultSet.getString("typ"),
+                        resultSet.getString("seriennummer"),
+                        resultSet.getString("inventarnummer"),
+                        resultSet.getString("hersteller"),
+                        resultSet.getString("modell"),
+                        resultSet.getInt("status"),
+                        resultSet.getString("art"),
+                        resultSet.getString("imagepfad")
+                ));
+            }
         }
 
         stmt.close();
@@ -92,54 +125,90 @@ public class SqlProvider
         return hardwareArrayList;
     }
 
-    public void insertHardware(Hardware hardware) throws SQLException
+    public ArrayList<Hardware> getHardwareById(int id) throws SQLException
     {
-        String sql;
+        ArrayList<Hardware> hardwareArrayList = new ArrayList<>();
 
-        openConnection();
-
-        sql = "INSERT INTO hardware(typ, seriennummer, inventarnummer, hersteller, modell, status, art) " +
-                "VALUES('" + hardware.getTyp() + "','"
-                + hardware.getSeriennummer() + "','"
-                + hardware.getInventarnummer() + "','"
-                + hardware.getHersteller() + "','"
-                + hardware.getModell() + "','"
-                + hardware.getStatus() + "',"
-                + "0)";
-
-        // Statementobjekt erzeugen
-        stmt = connection.createStatement();
-
-        // SQL-Statement abschicken
-        stmt.execute(sql);
-
-        stmt.close();
-
-        closeConnection();
-    }
-    
-    
-    public Hardware getAllHardwareByRoomID(int raumId) throws SQLException
-    {
-        for(Hardware hardware : getAllHardware())
-        {
-            if(hardware.getId() == raumId)
-            {
-                return hardware;
-            }
-        }
-        return null;
-    }
-
-    public List<Raum> getAllRooms() throws SQLException
-    {
-        ArrayList<Raum> raumArrayList = new ArrayList<>();
         String sql;
         ResultSet resultSet;
 
         openConnection();
 
-        sql = "SELECT id, bezeichnung, typ, anzahlArbeitsplaetze FROM hardware;";
+        sql = "SELECT * FROM hardware WHERE fk_raum_id = " + id;
+
+        stmt = connection.createStatement();
+
+        stmt.execute(sql);
+
+        resultSet = stmt.getResultSet();
+
+        while (resultSet.next() == true)
+        {
+            if(resultSet.getString("betriebsmittel") == null && resultSet.getString("imagepfad") == null)
+            {
+                hardwareArrayList.add(new Hardware(
+                        resultSet.getInt("id"),
+                        resultSet.getString("typ"),
+                        resultSet.getString("seriennummer"),
+                        resultSet.getString("inventarnummer"),
+                        resultSet.getString("hersteller"),
+                        resultSet.getString("modell"),
+                        resultSet.getInt("status"),
+                        resultSet.getString("art")
+                ));
+            }
+            else if(resultSet.getString("betriebsmittel") != null && resultSet.getString("imagepfad") == null)
+            {
+                hardwareArrayList.add(new Drucker(
+                        resultSet.getInt("id"),
+                        resultSet.getString("typ"),
+                        resultSet.getString("seriennummer"),
+                        resultSet.getString("inventarnummer"),
+                        resultSet.getString("hersteller"),
+                        resultSet.getString("modell"),
+                        resultSet.getInt("status"),
+                        resultSet.getString("betriebsmittel"),
+                        resultSet.getString("art")
+                ));
+            }
+            else if(resultSet.getString("betriebsmittel") == null && resultSet.getString("imagepfad") != null)
+            {
+                hardwareArrayList.add(new Rechner(
+                        resultSet.getInt("id"),
+                        resultSet.getString("typ"),
+                        resultSet.getString("seriennummer"),
+                        resultSet.getString("inventarnummer"),
+                        resultSet.getString("hersteller"),
+                        resultSet.getString("modell"),
+                        resultSet.getInt("status"),
+                        resultSet.getString("art"),
+                        resultSet.getString("imagepfad")
+                ));
+            }
+        }
+
+        stmt.close();
+
+        closeConnection();
+
+        return hardwareArrayList;
+    }
+
+    public void insertHardware(Hardware hardware, int raumId) throws SQLException
+    {
+        String sql;
+
+        openConnection();
+
+        sql = "INSERT INTO hardware(typ, seriennummer, inventarnummer, hersteller, fk_raum_id, modell, status, art) " +
+                "VALUES('" + hardware.getTyp() + "','"
+                + hardware.getSeriennummer() + "','"
+                + hardware.getInventarnummer() + "','"
+                + hardware.getHersteller() + "',"
+                + raumId + ",'"
+                + hardware.getModell() + "','"
+                + hardware.getStatus() + "',"
+                + hardware.getArt() + ")";
 
         // Statementobjekt erzeugen
         stmt = connection.createStatement();
@@ -147,40 +216,32 @@ public class SqlProvider
         // SQL-Statement abschicken
         stmt.execute(sql);
 
-        // Ergebnismenge holen
-        resultSet = stmt.getResultSet();
-
-        while (resultSet.next() == true)
-        {
-            raumArrayList.add(new Raum(
-                    resultSet.getInt("id"),
-                    resultSet.getString("bezeichnung"),
-                    resultSet.getString("typ"),
-                    resultSet.getInt("anzahlArbeitsplaetze")
-            ));
-        }
-
         stmt.close();
 
         closeConnection();
-
-        return raumArrayList;
     }
 
-
-    public void updateRoom(Raum room) throws SQLException {
+    public void insertHardware(Drucker drucker, int raumId) throws SQLException
+    {
         String sql;
 
         openConnection();
 
-        sql = "UPDATE room(id, bezeichnung, typ, anzahlArbeitsplaetze ) " +
-                "VALUES('" + room.getRaumid() + "','"
-                + room.getBezeichnung() + "','"
-                + room.getTyp() + "','"
-                + room.getAnzahlArbeitsplaetze() + "', 0)";
+        sql = "INSERT INTO hardware(typ, seriennummer, inventarnummer, hersteller, fk_raum_id, modell, status, art, betriebsmittel) " +
+                "VALUES('" + drucker.getTyp() + "','"
+                + drucker.getSeriennummer() + "','"
+                + drucker.getInventarnummer() + "','"
+                + drucker.getHersteller() + "',"
+                + raumId + ",'"
+                + drucker.getModell() + "','"
+                + drucker.getStatus() + "','"
+                + drucker.getArt() + "','"
+                + drucker.getBetriebsmittel() + "')";
 
+        // Statementobjekt erzeugen
         stmt = connection.createStatement();
 
+        // SQL-Statement abschicken
         stmt.execute(sql);
 
         stmt.close();
@@ -188,24 +249,31 @@ public class SqlProvider
         closeConnection();
     }
 
-
-    public void insertRoom(Raum room) throws SQLException {
+    public void insertHardware(Rechner rechner, int raumId) throws SQLException
+    {
         String sql;
 
         openConnection();
 
-        sql = "INSERT INTO raum(bezeichnung, typ, anzahlArbeitsplaetze) " +
-                "VALUES('" + room.getBezeichnung() + "','"
-                + room.getTyp() + "','"
-                + room.getAnzahlArbeitsplaetze() + "', 0)";
+        sql = "INSERT INTO hardware(typ, seriennummer, inventarnummer, hersteller, fk_raum_id, modell, status, art, imagepfad) " +
+                "VALUES('" + rechner.getTyp() + "','"
+                + rechner.getSeriennummer() + "','"
+                + rechner.getInventarnummer() + "','"
+                + rechner.getHersteller() + "',"
+                + raumId + ",'"
+                + rechner.getModell() + "','"
+                + rechner.getStatus() + "','"
+                + rechner.getArt() + "','"
+                + rechner.getImagepfad() + ")";
 
+        // Statementobjekt erzeugen
         stmt = connection.createStatement();
 
+        // SQL-Statement abschicken
         stmt.execute(sql);
 
         stmt.close();
 
         closeConnection();
     }
-
 }
