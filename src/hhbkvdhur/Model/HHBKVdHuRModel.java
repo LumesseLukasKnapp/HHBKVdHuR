@@ -1,5 +1,6 @@
 package hhbkvdhur.Model;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import hhbkvdhur.Service.SqlProvider;
@@ -25,7 +26,12 @@ public class HHBKVdHuRModel {
     }*/
 
     public static void addRoom(Raum r) {
-        //sqlProvider.insertRoom(r);
+        try {
+            sqlProvider.insertRoom(r);
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void addHardware(Hardware h) {

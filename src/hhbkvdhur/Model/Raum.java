@@ -84,5 +84,7 @@ public class Raum {
         this.hardwareList.clear();
     }
 
-
+    public String toString(){
+        return this.getRaumid()+": "+this.getBezeichnung()+", "+this.getTyp()+", "+this.getAnzahlArbeitsplaetze();
+    }
 }

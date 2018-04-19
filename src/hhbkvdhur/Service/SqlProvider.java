@@ -79,9 +79,7 @@ public class SqlProvider
                     resultSet.getString("hersteller"),
                     resultSet.getString("modell"),
                     resultSet.getInt("status"),
-                    resultSet.getString("imagepfad"),
-                    resultSet.getString("art"),
-                    resultSet.getString("betriebsmittel")
+                    resultSet.getString("art")
             ));
         }
 
@@ -141,6 +139,28 @@ public class SqlProvider
         return raumArrayList;
     }
 
+
+    public void updateRoom(Raum room) throws SQLException {
+        String sql;
+
+        openConnection();
+
+        sql = "UPDATE room(id, bezeichnung, typ, anzahlArbeitsplaetze ) " +
+                "VALUES('" + room.getRaumid() + "','"
+                + room.getBezeichnung() + "','"
+                + room.getTyp() + "','"
+                + room.getAnzahlArbeitsplaetze() + "', 0)";
+
+        stmt = connection.createStatement();
+
+        stmt.execute(sql);
+
+        stmt.close();
+
+        closeConnection();
+    }
+
+
     public void insertRoom(Raum room) throws SQLException {
         String sql;
 
@@ -179,26 +199,6 @@ public class SqlProvider
         stmt = connection.createStatement();
 
         // SQL-Statement abschicken
-        stmt.execute(sql);
-
-        stmt.close();
-
-        closeConnection();
-    }
-
-    public void updateRoom(Raum room) throws SQLException {
-        String sql;
-
-        openConnection();
-
-        sql = "UPDATE room(id, bezeichnung, typ, anzahlArbeitsplaetze ) " +
-                "VALUES('" + room.getRaumid() + "','"
-                + room.getBezeichnung() + "','"
-                + room.getTyp() + "','"
-                + room.getAnzahlArbeitsplaetze() + "', 0)";
-
-        stmt = connection.createStatement();
-
         stmt.execute(sql);
 
         stmt.close();

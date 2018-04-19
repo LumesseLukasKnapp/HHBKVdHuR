@@ -4,6 +4,7 @@ import hhbkvdhur.Model.*;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -50,6 +51,7 @@ public class Controller implements Initializable {
 
     @Override // This method is called by the FXMLLoader when initialization is complete
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+
         this.RaumListview.setItems(this.raumListe);
         this.HardwareListview.setItems(this.hardwareListe);
 
@@ -137,6 +139,7 @@ public class Controller implements Initializable {
             addMessageDialog("Die Anzahl der Arbeitsplätze muss eine ganze Zahl sein!");
         }
         catch(Exception e){
+            System.out.println("Error: "+e.getCause());
             addMessageDialog(e.getMessage());
         }
     }
@@ -151,7 +154,7 @@ public class Controller implements Initializable {
                     txtRaumAnzahlArbeitsplaetze.getText().isEmpty()) throw new Exception("Felder dürfen nicht leer sein!");
 
             Raum r = RaumListview.getSelectionModel().getSelectedItem();
-            int listIndex = this.HardwareListview.getSelectionModel().getSelectedIndex();
+            int listIndex = this.RaumListview.getSelectionModel().getSelectedIndex();
 
             r.setAnzahlArbeitsplaetze(Integer.parseInt(txtRaumAnzahlArbeitsplaetze.getText()));
             r.setTyp(txtRaumTyp.getText());
@@ -160,6 +163,7 @@ public class Controller implements Initializable {
             HHBKVdHuRModel.updateRoom(r);
 
             raumListe.set(listIndex, r);
+
         }
         catch(NumberFormatException e){
             addMessageDialog("Die Anzahl der Arbeitsplätze muss eine ganze Zahl sein!");
@@ -169,13 +173,14 @@ public class Controller implements Initializable {
         }
     }
 
-    public void handleRaumSelected(KeyEvent keyEvent) {
-        this.setRaumDetails((Raum) this.RaumListview.getSelectionModel().getSelectedItem());
+    public void handleRaumSelected(Event keyEvent) {
+        System.out.println((this.RaumListview.getSelectionModel().getSelectedItem()).toString());
+        this.setRaumDetails(this.RaumListview.getSelectionModel().getSelectedItem());
     }
 
     private void setRaumDetails(Raum raumDetails) {
         this.initRaumDetails();
-        this.txtRaumId.setText(String.valueOf(raumDetails.getRaumid()));
+        this.txtRaumId.setText(Integer.toString(raumDetails.getRaumid()));
         this.txtRaumBezeichnung.setText(raumDetails.getBezeichnung());
         this.txtRaumTyp.setText(raumDetails.getTyp());
         this.txtRaumAnzahlArbeitsplaetze.setText(Integer.toString(raumDetails.getAnzahlArbeitsplaetze()));
@@ -199,7 +204,7 @@ public class Controller implements Initializable {
                     txtHardwareSeriennummer.getText().isEmpty() ||
                     txtHardwareStatus.getText().isEmpty() ||
                     txtHardwareModell.getText().isEmpty()) throw new Exception("Felder dürfen nicht leer sein!");
-            if (!txtHardwareTyp.getText().equals("Computer") && !txtHardwareTyp.getText().equals("Computer"))
+            if (!txtHardwareTyp.getText().equals("Computer") && !txtHardwareTyp.getText().equals("Drucker"))
                 throw new Exception("Hardwaretyp muss 'Computer' oder 'Drucker' sein!");
 
 
@@ -282,7 +287,7 @@ public class Controller implements Initializable {
         }
     }
 
-    public void handleHardwareSelected(KeyEvent keyEvent) {
+    public void handleHardwareSelected(Event keyEvent) {
         this.setHardwareDetails((Hardware) this.HardwareListview.getSelectionModel().getSelectedItem());
     }
 
