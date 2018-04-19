@@ -8,8 +8,8 @@ public class Drucker extends Hardware{
         this.betriebsmittel = betriebsmittel;
     }
 
-    public Drucker(int id, String typ, String seriennummer, String inventarnummer, String hersteller, String modell, int status, String betriebsmittel) {
-        super(id, typ, seriennummer, inventarnummer, hersteller, modell, status);
+    public Drucker(int id, String typ, String seriennummer, String inventarnummer, String hersteller, String modell, int status, String betriebsmittel, String art) {
+        super(id, typ, seriennummer, inventarnummer, hersteller, modell, status, art);
         this.betriebsmittel = betriebsmittel;
     }
 

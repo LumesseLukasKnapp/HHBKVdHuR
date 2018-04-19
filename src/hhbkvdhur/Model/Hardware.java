@@ -9,16 +9,14 @@ public class Hardware {
     private String hersteller;
     private String modell;
     private int status;
-    private String imagepfad;
     private String art;
-    private String betriebsmittel;
     private int raumFkId;
 
     public Hardware() {
     }
 
     public Hardware(int id, String typ, String seriennummer, String inventarnummer, String hersteller,
-                    String modell, int status, String imagepfad, String art, String betriebsmittel) {
+                    String modell, int status, String art) {
         this.id = id;
         this.typ = typ;
         this.seriennummer = seriennummer;
@@ -26,9 +24,7 @@ public class Hardware {
         this.hersteller = hersteller;
         this.modell = modell;
         this.status = status;
-        this.imagepfad = imagepfad;
         this.art = art;
-        this.betriebsmittel = betriebsmittel;
     }
 
     public String getTyp() {
@@ -79,10 +75,6 @@ public class Hardware {
         this.status = status;
     }
 
-    public void setImagepfad(String imagepfad) {
-        this.imagepfad = imagepfad;
-    }
-
     public int getId() {
 
 
@@ -93,16 +85,8 @@ public class Hardware {
         this.id = id;
     }
 
-    public String getImagepfad() {
-        return imagepfad;
-    }
-
     public String getArt() {
         return art;
-    }
-
-    public String getBetriebsmittel() {
-        return betriebsmittel;
     }
 
     public int getRaumFkId() {

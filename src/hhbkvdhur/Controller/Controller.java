@@ -127,7 +127,7 @@ public class Controller implements Initializable {
             r.setTyp(txtRaumTyp.getText());
             r.setAnzahlArbeitsplaetze(anzahlArbeitsplaetze);
 
-            HHBKVdHuRModel.addRaum(r);
+            HHBKVdHuRModel.addRoom(r);
 
             raumListe.add(r);
 
@@ -157,7 +157,7 @@ public class Controller implements Initializable {
             r.setTyp(txtRaumTyp.getText());
             r.setBezeichnung(txtRaumBezeichnung.getText());
 
-            HHBKVdHuRModel.updateRaum(r);
+            HHBKVdHuRModel.updateRoom(r);
 
             raumListe.set(listIndex, r);
         }
@@ -296,9 +296,14 @@ public class Controller implements Initializable {
         this.txtHardwareHersteller.setText(hardwareDetails.getHersteller());
         this.txtHardwareModell.setText(hardwareDetails.getModell());
         this.txtHardwareStatus.setText(Integer.toString(hardwareDetails.getStatus()));
-        this.txtDruckerBetriebsmittel.setText(hardwareDetails.getBetriebsmittel());
-        this.txtRechnerImagepfad.setText(hardwareDetails.getImagepfad());
-
+        if(hardwareDetails instanceof Rechner){
+            Rechner rechnerDetails = (Rechner) hardwareDetails;
+            this.txtRechnerImagepfad.setText(rechnerDetails.getImagepfad());
+        }
+        else if(hardwareDetails instanceof Drucker){
+            Drucker druckerDetails = (Drucker) hardwareDetails;
+            this.txtDruckerBetriebsmittel.setText(druckerDetails.getBetriebsmittel());
+        }
     }
 
     private void initHardwareDetails() {

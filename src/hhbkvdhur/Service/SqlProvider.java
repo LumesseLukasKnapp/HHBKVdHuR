@@ -1,5 +1,6 @@
 package hhbkvdhur.Service;
 
+import hhbkvdhur.Model.Drucker;
 import hhbkvdhur.Model.Hardware;
 
 import java.sql.*;
@@ -57,6 +58,7 @@ public class SqlProvider
     public ArrayList<Hardware> getAllHardware() throws SQLException
     {
         ArrayList<Hardware> hardwareArrayList = new ArrayList<>();
+
         String sql;
         ResultSet resultSet;
 
@@ -79,9 +81,7 @@ public class SqlProvider
                     resultSet.getString("hersteller"),
                     resultSet.getString("modell"),
                     resultSet.getInt("status"),
-                    resultSet.getString("imagepfad"),
-                    resultSet.getString("art"),
-                    resultSet.getString("betriebsmittel")
+                    resultSet.getString("art")
             ));
         }
 
