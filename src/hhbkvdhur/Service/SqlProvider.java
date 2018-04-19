@@ -1,7 +1,6 @@
 package hhbkvdhur.Service;
 
-import hhbkvdhur.Model.Drucker;
-import hhbkvdhur.Model.Hardware;
+import hhbkvdhur.Model.*;
 
 import java.sql.*;
 import java.util.*;
@@ -58,7 +57,6 @@ public class SqlProvider
     public ArrayList<Hardware> getAllHardware() throws SQLException
     {
         ArrayList<Hardware> hardwareArrayList = new ArrayList<>();
-
         String sql;
         ResultSet resultSet;
 
@@ -81,7 +79,9 @@ public class SqlProvider
                     resultSet.getString("hersteller"),
                     resultSet.getString("modell"),
                     resultSet.getInt("status"),
-                    resultSet.getString("art")
+                    resultSet.getString("imagepfad"),
+                    resultSet.getString("art"),
+                    resultSet.getString("betriebsmittel")
             ));
         }
 
@@ -90,6 +90,74 @@ public class SqlProvider
         closeConnection();
 
         return hardwareArrayList;
+    }
+
+
+    public Hardware getAllHardwareByRoomID(int raumId) throws SQLException
+    {
+        for(Hardware hardware : getAllHardware())
+        {
+            if(hardware.getId() == raumId)
+            {
+                return hardware;
+            }
+        }
+        return null;
+    }
+
+    public List<Raum> getAllRooms() throws SQLException
+    {
+        ArrayList<Raum> raumArrayList = new ArrayList<>();
+        String sql;
+        ResultSet resultSet;
+
+        openConnection();
+
+        sql = "SELECT id, bezeichnung, typ, anzahlArbeitsplaetze FROM hardware;";
+
+        // Statementobjekt erzeugen
+        stmt = connection.createStatement();
+
+        // SQL-Statement abschicken
+        stmt.execute(sql);
+
+        // Ergebnismenge holen
+        resultSet = stmt.getResultSet();
+
+        while (resultSet.next() == true)
+        {
+            raumArrayList.add(new Raum(
+                    resultSet.getInt("id"),
+                    resultSet.getString("bezeichnung"),
+                    resultSet.getString("typ"),
+                    resultSet.getInt("anzahlArbeitsplaetze")
+            ));
+        }
+
+        stmt.close();
+
+        closeConnection();
+
+        return raumArrayList;
+    }
+
+    public void insertRoom(Raum room) throws SQLException {
+        String sql;
+
+        openConnection();
+
+        sql = "INSERT INTO raum(bezeichnung, typ, anzahlArbeitsplaetze) " +
+                "VALUES('" + room.getBezeichnung() + "','"
+                + room.getTyp() + "','"
+                + room.getAnzahlArbeitsplaetze() + "', 0)";
+
+        stmt = connection.createStatement();
+
+        stmt.execute(sql);
+
+        stmt.close();
+
+        closeConnection();
     }
 
     public void insertHardware(Hardware hardware) throws SQLException
@@ -116,5 +184,30 @@ public class SqlProvider
         stmt.close();
 
         closeConnection();
+    }
+
+    public void updateRoom(Raum room) throws SQLException {
+        String sql;
+
+        openConnection();
+
+        sql = "UPDATE room(id, bezeichnung, typ, anzahlArbeitsplaetze ) " +
+                "VALUES('" + room.getRaumid() + "','"
+                + room.getBezeichnung() + "','"
+                + room.getTyp() + "','"
+                + room.getAnzahlArbeitsplaetze() + "', 0)";
+
+        stmt = connection.createStatement();
+
+        stmt.execute(sql);
+
+        stmt.close();
+
+        closeConnection();
+    }
+
+    public void updateHardware()
+    {
+
     }
 }
